@@ -1,6 +1,8 @@
+// App.js
 import React, { useState } from "react";
 import axios from "axios";
-import "./App.css"; // Import your CSS file
+import DynamicSelector from "./components/selector/index";
+import "./App.css";
 
 const App = () => {
   const [formData, setFormData] = useState({
@@ -9,114 +11,79 @@ const App = () => {
     agreeToTerms: false,
   });
 
-  const [inputFocused, setInputFocused] = useState(false);
-  const [isSubmitting, setSubmitting] = useState(false);
-  const [isSubmitted, setSubmitted] = useState(false);
+  const staticOptions = ["Option A", "Option B", "Option C"];
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleInputFocus = () => {
-    setInputFocused(true);
-  };
-
-  const handleInputBlur = () => {
-    setInputFocused(false);
-  };
-
   const handleSave = async () => {
-    setSubmitting(true);
+    if (!formData.name || !formData.sector || !formData.agreeToTerms) {
+      alert("All fields are mandatory");
+      return;
+    }
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // API call
     try {
       const response = await axios.post(
         "http://localhost:5000/api/save-user",
         formData
       );
       console.log(response.data);
-      setSubmitted(true);
     } catch (error) {
       console.error("Error saving data:", error);
     }
-
-    setSubmitting(false);
   };
+
+  // Disable the checkbox and button if Name or Sector is not filled
+  const isDisabled = !formData.name || !formData.sector;
 
   return (
     <div className="container">
       <div className="form-box">
-        <div>
-          <label className={`input-label ${inputFocused ? "focused" : ""}`}>
-            Name:
+        <form>
+          <div className="name-box">
+            <label>Name:</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              className={`${inputFocused ? "focused-border" : ""} ${
-                isSubmitted ? "submitted" : ""
-              }`}
+              className="custom-input"
+              placeholder="Your Name"
             />
-          </label>
+          </div>
           <br />
-          <label className={`input-label ${inputFocused ? "focused" : ""}`}>
-            Sectors:
-            <select
-              name="sector"
+          <div className="selector-box">
+            <label>Sectors:</label>
+            <DynamicSelector
               value={formData.sector}
               onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              className={`${inputFocused ? "focused-border" : ""} ${
-                isSubmitted ? "submitted" : ""
-              }`}
-            >
-              <option value="sector1">Sector 1</option>
-              <option value="sector2">Sector 2</option>
-            </select>
-          </label>
+              staticOptions={staticOptions}
+            />
+          </div>
           <br />
-          <label>
-            Agree to Terms:
+          <div className="terms-box">
+            <label>Agree to Terms:</label>
             <input
               type="checkbox"
               name="agreeToTerms"
               checked={formData.agreeToTerms}
               onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              className={`${inputFocused ? "focused-border" : ""} ${
-                isSubmitted ? "submitted" : ""
-              }`}
+              disabled={isDisabled} // Set the disabled attribute
             />
-          </label>
+          </div>
           <br />
-          <button onClick={handleSave} disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Save"}
+          <button onClick={handleSave} disabled={isDisabled} className={`${isDisabled ? 'save-button-disabled' : 'save-button'}`}>
+            Save
           </button>
-
-          {isSubmitted && (
-            <div className="modal">
-              <div className="modal-content">
-                <p>Submitted Successfully!</p>
-                <button onClick={() => setSubmitted(false)}>Close</button>
-              </div>
-            </div>
-          )}
-        </div>
+        </form>
       </div>
-      <div className="right-box">
-        <p>“Creativity is intelligence having fun”</p>
+      <div className="side-text">
+        <p>"Entertaining yourself with a skill."</p>
       </div>
     </div>
   );

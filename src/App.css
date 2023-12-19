@@ -1,102 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Zilla+Slab&display=swap");
 /* //////////////////////////////////// */
-/* Declearing some important Css Properties to take effect in the entire page*/
 html,
 body {
   margin: 0;
   box-sizing: border-box;
+  font-family: "Zilla Slab", serif;
 }
 /* //////////////////////////////////// */
 
 /* //////////////////////////////////// */
 /* Declearing some root variables */
 :root {
-  --fontSize: 16px;
-  --fontColor: #02070f;
+  --fontSize: 20px;
+  --fontColor: #27485d;
+  --borderColor: #284a5e;
   --BackgroundColor: #f1f6fd;
-  --BorderSuccessValidation: #1EE196;
-  --BorderErrorValidation: #E1341E;
-  --buttonBackgroundColor: #1E6AE1;
+  --BorderSuccessValidation: #1ee196;
+  --BorderErrorValidation: #e1341e;
+  --buttonBackgroundColor: #1e6ae1;
 }
 
 /* ////////////////////////////////////////// */
-
-.input-label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.focused {
-  color: gray; /* Color when focused */
-}
-
-.focused-border {
-  border: 2px solid gray; /* Border color when focused */
-}
-
-.submitted {
-  border: 2px solid green; /* Border color when submitted successfully */
-}
-
-/* Modal Styles */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* Css Design Flow for the form and side quote */
+.container {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-/* Button Styles */
-button {
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.container{
-width: 100%;
-min-height: 100vh;
-min-height: 100svh;
-display: flex;
-justify-content: center;
-}
-
+/* A Div containing the form tag */
 .form-box {
   flex: 1;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   margin: 0 auto;
 }
 
-.right-box{
+/* Giving the form tag a fixed Width across the big Screen or screen from 768px and above */
+.form-box form{
+  width: 400px;
+}
+
+.name-box,
+.selector-box {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+
+.name-box label,
+.selector-box label {
+  color: var(--fontColor);
+  font-size: var(--fontSize);
+  font-weight: 500;
+}
+
+.name-box .custom-input
+{
+  width: auto;
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  height: 30px;
+  font-size: 14px;
+}
+
+
+.custom-input:focus {
+  border: 1px solid var(--borderColor);
+}
+
+/* ///////////////////////////////////////////// */
+
+/* ///////////////////////////////////////////// */
+/* Button Design */
+.save-button {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #ffffff;
+  background: var(--borderColor);
+  border: none;
+  width: 150px;
+  font-size: var(--fontSize);
+}
+
+.save-button:hover{
+  background: #476D73;
+}
+.save-button-disabled{
+  opacity: 0.5;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #ffffff;
+  background: var(--borderColor);
+  border: none;
+  width: 150px;
+  font-size: var(--fontSize);
+}
+/* ///////////////////////////////////////////// */
+
+
+/* ///////////////////////////////////////////// */
+/* Side div or the right div with the Quote content */
+.side-text {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: linear-gradient(#27485D, #284A5E);
+  background: linear-gradient(#27485d, #284a5e);
   font-size: 2.5em;
   color: var(--BackgroundColor);
+  min-height: 100vh;
+  max-height: 100svh;
 }
 
-.right-box p{
+.side-text p {
   width: 400px;
   text-align: start;
 }
-
 /* /////////////////////////////////////////////// */
-

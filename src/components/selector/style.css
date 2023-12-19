@@ -1,0 +1,27 @@
+select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border 0.3s, box-shadow 0.3s;
+  width: 100%; /* Ensure the select takes full width */
+}
+
+select:hover {
+  cursor: pointer;
+}
+
+select:active,
+select:focus {
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+select option {
+  background-color: #ddd;
+  margin: 4px 0;
+  border-radius: 10px; /* Set border-radius for options */
+  transition: background-color 0.3s; /* Add transition for background-color */
+}
+
+select option:hover {
+  background-color: gray; /* Gray background on option hover */
+}
