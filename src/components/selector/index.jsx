@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
 
-// CustomDropdown component receives props:
-// - options: An array of available options for the dropdown
-// - handleSelect: Function to handle selection of an option
-// - fetchDataAsync: Asynchronous function to fetch data (executed on component mount)
-// - addCustomOptionAsync: Asynchronous function to add a custom option
-// - selectedOption: Currently selected option
 const CustomDropdown = ({
   options,
   handleSelect,
