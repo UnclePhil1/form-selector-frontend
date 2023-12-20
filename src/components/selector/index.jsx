@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
 
@@ -16,12 +17,22 @@ const CustomDropdown = ({
 }) => {
   // State to manage the visibility of the dropdown options
   const [isOpen, setIsOpen] = useState(false);
+=======
+import React, { useState, useEffect, useRef } from 'react';
+import './style.css'; // Import the corresponding CSS
+
+const CustomDropdown = ({ options, handleSelect, fetchDataAsync }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
+  const dropdownRef = useRef(null);
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
 
   // Reference to the dropdown container to detect clicks outside the dropdown
   const dropdownRef = useRef(null);
 
   // useEffect runs when the component mounts
   useEffect(() => {
+<<<<<<< HEAD
     // Fetch initial data asynchronously
     fetchDataAsync();
 
@@ -43,6 +54,22 @@ const CustomDropdown = ({
   };
 
   // Handles a click outside the dropdown to close it
+=======
+    fetchDataAsync(); // Fetch data asynchronously when the component mounts
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [fetchDataAsync]);
+
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+    handleSelect(option); // Change this line to use handleSelect
+  };
+
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
   const handleOutsideClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -51,6 +78,7 @@ const CustomDropdown = ({
 
   // Render the component
   return (
+<<<<<<< HEAD
     // Ref attached to the dropdown container to detect clicks outside
     <div ref={dropdownRef} className="custom-dropdown-container">
       {/* Header of the dropdown, clicking it toggles the dropdown visibility */}
@@ -71,6 +99,21 @@ const CustomDropdown = ({
               onClick={() => handleOptionClick(option.value)}
             >
               {option.label}
+=======
+    <div ref={dropdownRef} className="custom-dropdown-container">
+      <div className="custom-dropdown-header" onClick={() => setIsOpen(!isOpen)}>
+        {selectedOption || 'Select an option'}
+      </div>
+      {isOpen && (
+        <div className="custom-dropdown-options">
+          {options.map((option) => (
+            <div
+              key={option}
+              className="custom-dropdown-option"
+              onClick={() => handleOptionClick(option)}
+            >
+              {option}
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
             </div>
           ))}
         </div>

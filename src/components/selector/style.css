@@ -1,4 +1,5 @@
 /* CustomDropdown.css */
+<<<<<<< HEAD
 
 /* Container for the entire dropdown */
 .custom-dropdown-container {
@@ -7,6 +8,14 @@
 }
 
 /* Header of the dropdown that is initially visible */
+=======
+.custom-dropdown-container {
+  position: relative;
+  width: auto;
+  
+}
+
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
 .custom-dropdown-header {
   padding: 10px;
   border: 1px solid #ccc;
@@ -14,7 +23,10 @@
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 /* Options container that appears when the dropdown is open */
+=======
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
 .custom-dropdown-options {
   position: absolute;
   top: 100%;
@@ -29,6 +41,7 @@
   z-index: 10;
 }
 
+<<<<<<< HEAD
 /* Individual option within the dropdown */
 .custom-dropdown-option {
   padding: 8px;
@@ -37,6 +50,14 @@
 }
 
 /* Styling when hovering over an option */
+=======
+.custom-dropdown-option {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
 .custom-dropdown-option:hover {
   background-color: #b4cfe0;
 }

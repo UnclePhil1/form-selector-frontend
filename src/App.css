@@ -66,8 +66,12 @@ body {
   margin: 0 auto;
 }
 
+<<<<<<< HEAD
 /* Header styling for the form */
 .form-heading {
+=======
+.form-header {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
   font-size: 2em;
   width: 300px;
   display: flex;
@@ -76,8 +80,13 @@ body {
   color: var(--fontColor);
 }
 
+<<<<<<< HEAD
 /* Form width on larger screens */
 .form-container form {
+=======
+/* Giving the form tag a fixed Width across the big Screen or screen from 768px and above */
+.form-box form {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
   width: 400px;
 }
 
@@ -98,8 +107,12 @@ body {
   font-weight: 500;
 }
 
+<<<<<<< HEAD
 /* Input box styling */
 .name-input-container .custom-input {
+=======
+.name-box .custom-input {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
   width: auto;
   padding: 4px 12px;
   border-radius: 10px;
@@ -110,8 +123,12 @@ body {
   background: transparent;
 }
 
+<<<<<<< HEAD
 /* Input box focus styling */
 .name-input-container .custom-input:focus {
+=======
+.name-box .custom-input:focus {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
   outline: 1px solid #b4cfe0;
   background: transparent;
 }
@@ -131,12 +148,18 @@ body {
   margin-top: 10px;
 }
 
+<<<<<<< HEAD
 /* Button hover styling */
 .save-button:hover {
   background: #476d73;
 }
 
 /* Disabled button styling */
+=======
+.save-button:hover {
+  background: #476d73;
+}
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
 .save-button-disabled {
   opacity: 0.5;
   padding: 10px;
@@ -150,9 +173,15 @@ body {
 }
 /* /////////////////////////////////////////////// */
 
+<<<<<<< HEAD
 /* /////////////////////////////////////////////// */
 /* Styling for the side text container */
 .side-text-container {
+=======
+/* ///////////////////////////////////////////// */
+/* Side div or the right div with the Quote content */
+.side-text {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
   flex: 1;
   display: flex;
   justify-content: center;
@@ -165,28 +194,47 @@ body {
   max-height: 100svh;
 }
 
+<<<<<<< HEAD
 /* Styling for text within the side text container */
 .side-text-container p {
+=======
+.side-text p {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
   width: 350px;
   text-align: start;
 }
 
 /* /////////////////////////////////////////////// */
+<<<<<<< HEAD
 /* Responsive design for screens below 768px */
 @media screen and (max-width: 768px) {
   .main-container {
+=======
+
+/* adding responsiveness from a width of 768px */
+@media screen and (max-width: 768px) {
+  .container {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
     flex-direction: row;
     width: 100%;
   }
 
+<<<<<<< HEAD
   .form-container {
+=======
+  .form-box {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
     flex: auto;
     width: 100%;
     height: 100%;
     padding: 12px;
   }
 
+<<<<<<< HEAD
   .form-heading {
+=======
+  .form-header {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
     font-size: var(--fontSize);
     width: auto;
     display: flex;
@@ -194,6 +242,7 @@ body {
     align-items: flex-start;
   }
 
+<<<<<<< HEAD
   .form-container {
     width: 100%;
   }
@@ -203,10 +252,22 @@ body {
   }
 
   .side-text-container {
+=======
+  .form-box {
+    width: 100%;
+  }
+
+  .form-box form {
+    width: 100%;
+  }
+
+  .side-text {
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
     display: none;
   }
 }
 
+<<<<<<< HEAD
 /* /////////////////////////////////////////////// */
 /* Responsive design for screens between 450px and 768px */
 @media screen and (min-width: 450px) and (max-width: 768px) {
@@ -214,3 +275,10 @@ body {
     width: 400px;
   }
 }
+=======
+@media screen and (min-width: 450px) and (max-width:768px) {
+  .form-box form{
+    width: 400px;
+  }
+}
+>>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
