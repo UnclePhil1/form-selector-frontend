@@ -1,55 +1,82 @@
-// DynamicSelector.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './style.css'
+import React, { useState, useEffect, useRef } from "react";
+import "./style.css";
 
-const DynamicSelector = ({ value, onChange, staticOptions }) => {
-  const [sectors, setSectors] = useState([]);
-  const [customOption, setCustomOption] = useState('');
+// CustomDropdown component receives props:
+// - options: An array of available options for the dropdown
+// - handleSelect: Function to handle selection of an option
+// - fetchDataAsync: Asynchronous function to fetch data (executed on component mount)
+// - addCustomOptionAsync: Asynchronous function to add a custom option
+// - selectedOption: Currently selected option
+const CustomDropdown = ({
+  options,
+  handleSelect,
+  fetchDataAsync,
+  addCustomOptionAsync,
+  selectedOption,
+}) => {
+  // State to manage the visibility of the dropdown options
+  const [isOpen, setIsOpen] = useState(false);
 
+  // Reference to the dropdown container to detect clicks outside the dropdown
+  const dropdownRef = useRef(null);
+
+  // useEffect runs when the component mounts
   useEffect(() => {
-    const fetchSectors = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/sectors');
-        setSectors(response.data);
-      } catch (error) {
-        console.error('Error fetching sectors:', error);
-      }
+    // Fetch initial data asynchronously
+    fetchDataAsync();
+
+    // Add an event listener to detect clicks outside the dropdown and close it
+    document.addEventListener("click", handleOutsideClick);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
     };
+  }, [fetchDataAsync]);
 
-    fetchSectors();
-  }, []);
+  // Handles a click on an option in the dropdown
+  const handleOptionClick = (option) => {
+    // Call the provided handleSelect function to update the selected option
+    handleSelect(option);
+    // Close the dropdown
+    setIsOpen(false);
+  };
 
-  // const handleCustomOptionChange = (e) => {
-  //   setCustomOption(e.target.value);
-  // };
+  // Handles a click outside the dropdown to close it
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
 
-  // const handleAddCustomOption = () => {
-  //   if (customOption.trim() !== '' && !sectors.some((sector) => sector.name === customOption)) {
-  //     setSectors((prevSectors) => [...prevSectors, { name: customOption, id: Date.now() }]);
-  //     setCustomOption('');
-  //   }
-  // };
-
+  // Render the component
   return (
-    <div>
-      <select name="sector" value={value} onChange={onChange}>
-        <option value="">Select a sector</option>
-        {staticOptions.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      {/* <input
-        type="text"
-        placeholder="Add custom sector"
-        value={customOption}
-        onChange={handleCustomOptionChange}
-      />
-      <button onClick={handleAddCustomOption}>Add</button> */}
+    // Ref attached to the dropdown container to detect clicks outside
+    <div ref={dropdownRef} className="custom-dropdown-container">
+      {/* Header of the dropdown, clicking it toggles the dropdown visibility */}
+      <div
+        className="custom-dropdown-header"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {selectedOption || "Choose your Sector"}
+      </div>
+      {/* Dropdown options are rendered if the dropdown is open */}
+      {isOpen && (
+        <div className="custom-dropdown-options">
+          {/* Map through options and render each as a clickable option */}
+          {options.map((option) => (
+            <div
+              key={option.value}
+              className="custom-dropdown-option"
+              onClick={() => handleOptionClick(option.value)}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default DynamicSelector;
+export default CustomDropdown;
