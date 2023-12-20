@@ -39,7 +39,11 @@ const App = () => {
     } catch (error) {
       // Check for error if User data can't be fetched.
       console.error("Error fetching user data:", error);
-      toast.error("Error fetching user data");
+
+      // Only show the toast if there is an actual error (status code other than 404)
+      if (error.response && error.response.status !== 404) {
+        toast.error("Error fetching user data");
+      }
     }
   };
 
