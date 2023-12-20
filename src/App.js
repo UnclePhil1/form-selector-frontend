@@ -1,7 +1,6 @@
-// App.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import DynamicSelector from "./components/selector/index";
+import CustomDropdown from "./components/selector/index"; // Adjust the path accordingly
 import "./App.css";
 
 const App = () => {
@@ -11,7 +10,34 @@ const App = () => {
     agreeToTerms: false,
   });
 
-  const staticOptions = ["Option A", "Option B", "Option C"];
+  const [selectedOption, setSelectedOption] = useState('');
+  const dynamicOptions = ['Option A', 'Option B', 'Option C'];
+
+  const handleSelect = (option) => {
+    setSelectedOption(option);
+    setFormData((prevData) => ({ ...prevData, sector: option }));
+  };
+
+  useEffect(() => {
+    fetchDataAsync();
+  }, []);
+
+  const fetchDataAsync = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/sectors");
+      // Process the response if needed
+    } catch (error) {
+      console.error("Error fetching sectors:", error);
+    }
+  };
+
+  const addCustomOptionAsync = async (option) => {
+    try {
+      await axios.post("http://localhost:5000/api/add-sector", { name: option });
+    } catch (error) {
+      console.error("Error adding custom option:", error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -28,10 +54,7 @@ const App = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/save-user",
-        formData
-      );
+      const response = await axios.post("http://localhost:5000/api/save-user", formData);
       console.log(response.data);
     } catch (error) {
       console.error("Error saving data:", error);
@@ -44,6 +67,7 @@ const App = () => {
   return (
     <div className="container">
       <div className="form-box">
+      <h1 className="form-header">Lets get you started.</h1>
         <form>
           <div className="name-box">
             <label>Name:</label>
@@ -59,10 +83,11 @@ const App = () => {
           <br />
           <div className="selector-box">
             <label>Sectors:</label>
-            <DynamicSelector
-              value={formData.sector}
-              onChange={handleInputChange}
-              staticOptions={staticOptions}
+            <CustomDropdown
+              options={dynamicOptions}
+              handleSelect={handleSelect}
+              fetchDataAsync={fetchDataAsync}
+              addCustomOptionAsync={addCustomOptionAsync}
             />
           </div>
           <br />
@@ -73,17 +98,21 @@ const App = () => {
               name="agreeToTerms"
               checked={formData.agreeToTerms}
               onChange={handleInputChange}
-              disabled={isDisabled} // Set the disabled attribute
+              disabled={!selectedOption} // Set the disabled attribute
             />
           </div>
           <br />
-          <button onClick={handleSave} disabled={isDisabled} className={`${isDisabled ? 'save-button-disabled' : 'save-button'}`}>
+          <button
+            onClick={handleSave}
+            disabled={isDisabled}
+            className={`save-button ${isDisabled ? 'save-button-disabled' : ''}`}
+          >
             Save
           </button>
         </form>
       </div>
       <div className="side-text">
-        <p>"Entertaining yourself with a skill."</p>
+        <p>"Select the Sectors you are currently involved in."</p>
       </div>
     </div>
   );

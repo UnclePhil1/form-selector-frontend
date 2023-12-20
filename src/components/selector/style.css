@@ -1,27 +1,37 @@
-select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  transition: border 0.3s, box-shadow 0.3s;
-  width: 100%; /* Ensure the select takes full width */
+/* CustomDropdown.css */
+.custom-dropdown-container {
+  position: relative;
+  width: auto;
+  
 }
 
-select:hover {
+.custom-dropdown-header {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
   cursor: pointer;
 }
 
-select:active,
-select:focus {
-  transition: border 0.3s, box-shadow 0.3s;
+.custom-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  z-index: 10;
 }
 
-select option {
-  background-color: #ddd;
-  margin: 4px 0;
-  border-radius: 10px; /* Set border-radius for options */
-  transition: background-color 0.3s; /* Add transition for background-color */
+.custom-dropdown-option {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-select option:hover {
-  background-color: gray; /* Gray background on option hover */
+.custom-dropdown-option:hover {
+  background-color: #b4cfe0;
 }

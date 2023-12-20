@@ -1,55 +1,52 @@
-// DynamicSelector.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './style.css'
+import React, { useState, useEffect, useRef } from 'react';
+import './style.css'; // Import the corresponding CSS
 
-const DynamicSelector = ({ value, onChange, staticOptions }) => {
-  const [sectors, setSectors] = useState([]);
-  const [customOption, setCustomOption] = useState('');
+const CustomDropdown = ({ options, handleSelect, fetchDataAsync }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const fetchSectors = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/sectors');
-        setSectors(response.data);
-      } catch (error) {
-        console.error('Error fetching sectors:', error);
-      }
+    fetchDataAsync(); // Fetch data asynchronously when the component mounts
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
     };
+  }, [fetchDataAsync]);
 
-    fetchSectors();
-  }, []);
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+    handleSelect(option); // Change this line to use handleSelect
+  };
 
-  // const handleCustomOptionChange = (e) => {
-  //   setCustomOption(e.target.value);
-  // };
-
-  // const handleAddCustomOption = () => {
-  //   if (customOption.trim() !== '' && !sectors.some((sector) => sector.name === customOption)) {
-  //     setSectors((prevSectors) => [...prevSectors, { name: customOption, id: Date.now() }]);
-  //     setCustomOption('');
-  //   }
-  // };
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
 
   return (
-    <div>
-      <select name="sector" value={value} onChange={onChange}>
-        <option value="">Select a sector</option>
-        {staticOptions.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      {/* <input
-        type="text"
-        placeholder="Add custom sector"
-        value={customOption}
-        onChange={handleCustomOptionChange}
-      />
-      <button onClick={handleAddCustomOption}>Add</button> */}
+    <div ref={dropdownRef} className="custom-dropdown-container">
+      <div className="custom-dropdown-header" onClick={() => setIsOpen(!isOpen)}>
+        {selectedOption || 'Select an option'}
+      </div>
+      {isOpen && (
+        <div className="custom-dropdown-options">
+          {options.map((option) => (
+            <div
+              key={option}
+              className="custom-dropdown-option"
+              onClick={() => handleOptionClick(option)}
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default DynamicSelector;
+export default CustomDropdown;
