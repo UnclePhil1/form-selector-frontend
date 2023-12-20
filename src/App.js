@@ -1,181 +1,126 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CustomDropdown from "./components/selector/index";
-import dynamicOptions from "./components/dynamicoptions/index"; // Adjust the path accordingly
+import DynamicOptions from "./components/dynamicOptions/DynamicOptions";
 import "./App.css";
-import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
-  // State to manage form data
   const [formData, setFormData] = useState({
+    id: null,
     name: "",
     sector: "",
     agreeToTerms: false,
   });
 
-  // State to manage the selected option in the dropdown
   const [selectedOption, setSelectedOption] = useState("");
 
-  // State to track if the name already exists
-  const [isNameExists, setIsNameExists] = useState(false);
+  const handleSelect = (option) => {
+    setSelectedOption(option);
+    setFormData((prevData) => ({ ...prevData, sector: option.value }));
+  };
 
-  // Fetch user data asynchronously when the component mounts
   useEffect(() => {
-    fetchDataAsync();
+    fetchUserData();
   }, []);
 
-  // Fetch user data from the server
-  const fetchDataAsync = async () => {
+  const fetchUserData = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/get-user");
-      const userData = response.data;
 
-      if (userData) {
-        // If user data is available, populate the form
-        setFormData(userData);
-        // Set the selected option for the dropdown
-        setSelectedOption(userData.sector);
+      if (response.data) {
+        const { _id, name, sector, agreeToTerms } = response.data;
+        setFormData({ id: _id, name, sector, agreeToTerms });
+        setSelectedOption({ value: sector, label: sector });
       }
     } catch (error) {
-      // Check for error if User data can't be fetched.
       console.error("Error fetching user data:", error);
-
-      // Only show the toast if there is an actual error (status code other than 404)
-      if (error.response && error.response.status !== 404) {
-        toast.error("Error fetching user data");
-      }
     }
   };
 
-  // Add a custom option to the dropdown asynchronously
   const addCustomOptionAsync = async (option) => {
     try {
-      await axios.post("http://localhost:5000/api/add-sector", {
-        name: option,
-      });
-      fetchDataAsync(); // Refetch data to update options
+      await axios.post("http://localhost:5000/api/add-sector", { name: option.label });
     } catch (error) {
-      toast.error("Error adding custom option:", error);
+      console.error("Error adding custom option:", error);
     }
   };
 
-  // Handle input changes in the form
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
-    // Reset the nameExists state when the name is changed
-    setIsNameExists(false);
   };
 
-  // Handle selection in the dropdown
-  const handleSelect = (option) => {
-    setSelectedOption(option);
-    setFormData((prevData) => ({ ...prevData, sector: option }));
-  };
-
-  // Handle the save button click
   const handleSave = async () => {
-    // Check if required fields are filled
     if (!formData.name || !formData.sector || !formData.agreeToTerms) {
-      toast.error("All fields are mandatory");
+      alert("All fields are mandatory");
       return;
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/save-user",
-        formData
-      );
-
-      console.log("Server Response:", response.data); // Log the server response
-
-      if (response.data && response.data.success) {
-        toast.success("User data saved successfully!");
-      } else {
-        toast.error("Error saving data");
-      }
+      const endpoint = formData.id ? "update-user" : "save-user";
+      const response = await axios.post(`http://localhost:5000/api/${endpoint}`, formData);
+      console.log(response.data);
     } catch (error) {
       console.error("Error saving data:", error);
-      toast.error("Error saving data");
     }
   };
 
-  // Disable the save button if required fields are not filled
   const isDisabled = !formData.name || !formData.sector;
 
   return (
-    // Main container for the whole Page
-    <div className="main-container">
-      <div className="form-container">
-        {/* Header for the Form */}
-        <h1 className="form-heading">Let's get you started.</h1>
-
-        {/* Form Container itself */}
+    <div className="container">
+      <div className="form-box">
+        <h1 className="form-header">Let's get you started.</h1>
         <form>
-          {/* Input for the user's name */}
-          <div className="name-input-container">
+          <div className="name-box">
             <label>Name:</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className={`custom-input ${isNameExists ? "input-error" : ""}`}
+              className="custom-input"
               placeholder="Your Name"
             />
-            {/* Display an error message if the name already exists */}
-            {isNameExists && (
-              <span className="error-message">Name already exists</span>
-            )}
           </div>
-
-          {/* Dropdown for selecting sectors */}
-          <div className="sector-selector-container">
+          <br />
+          <div className="selector-box">
             <label>Sectors:</label>
             <CustomDropdown
-              options={dynamicOptions}
+              options={DynamicOptions}
               handleSelect={handleSelect}
-              fetchDataAsync={fetchDataAsync}
+              fetchDataAsync={fetchUserData}
               addCustomOptionAsync={addCustomOptionAsync}
-              selectedOption={selectedOption} // Pass the selected option to the dropdown
+              selectedOption={selectedOption}
             />
           </div>
-
-          {/* Checkbox for agreeing to terms */}
-          <div className="terms-checkbox-container">
+          <br />
+          <div className="terms-box">
             <label>Agree to Terms:</label>
             <input
-              type="checkbox"
-              name="agreeToTerms"
-              checked={formData.agreeToTerms}
-              onChange={handleInputChange}
-              disabled={!selectedOption}
+             type="checkbox"
+             name="agreeToTerms"
+             checked={formData.agreeToTerms}
+             onChange={handleInputChange}
+             disabled={!selectedOption} // Set the disabled attribute
             />
           </div>
-
-          {/* Save button */}
+          <br />
           <button
             onClick={handleSave}
             disabled={isDisabled}
-            className={`save-button ${
-              isDisabled ? "save-button-disabled" : ""
-            }`}
+            className={`save-button ${isDisabled ? "save-button-disabled" : ""}`}
           >
             Save
           </button>
         </form>
       </div>
-
-      {/* Additional text */}
-      <div className="side-text-container">
+      <div className="side-text">
         <p>"Select the Sectors you are currently involved in."</p>
       </div>
-      {/* Toaster */}
-      <Toaster position="top-center" />
-      {/* Toaster */}
     </div>
   );
 };

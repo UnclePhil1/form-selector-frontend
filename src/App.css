@@ -1,37 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&family=Zilla+Slab&display=swap");
-
-/* /////////////////////////////////////////////// */
-/* Resetting styles for the document */
+/* //////////////////////////////////// */
 html,
 body {
   margin: 0;
   box-sizing: border-box;
   font-family: "Zilla Slab", serif;
 }
+/* //////////////////////////////////// */
 
-/* For webkit-based browsers */
-::-webkit-scrollbar {
-  background-color: lightgray; 
-  border-radius: 10px;
-  width: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--borderColor); /* Set the background color of the thumb */
-  border-radius: 10px; /* Set the border-radius */
-  height: 100px;
-}
-
-/* For Firefox */
-::-moz-scrollbar-thumb {
-  background-color: var(--fontColor); /* Set the background color of the thumb */
-  border-radius: 10px; /* Set the border-radius */
-  height: 100px;
-}
-/* /////////////////////////////////////////////// */
-
-/* /////////////////////////////////////////////// */
-/* Root variables for consistent styling */
+/* //////////////////////////////////// */
+/* Declearing some root variables */
 :root {
   --fontSize: 20px;
   --fontColor: #27485d;
@@ -41,11 +19,10 @@ body {
   --BorderErrorValidation: #e1341e;
   --buttonBackgroundColor: #1e6ae1;
 }
-/* /////////////////////////////////////////////// */
 
-/* /////////////////////////////////////////////// */
-/* Layout styling for the main container */
-.main-container {
+/* ////////////////////////////////////////// */
+/* Css Design Flow for the form and side quote */
+.container {
   width: 100%;
   min-height: 100vh;
   min-height: 100svh;
@@ -54,8 +31,8 @@ body {
   align-items: center;
 }
 
-/* Styling for the form container */
-.form-container {
+/* A Div containing the form tag */
+.form-box {
   flex: 1;
   width: 100%;
   height: 100%;
@@ -66,8 +43,7 @@ body {
   margin: 0 auto;
 }
 
-/* Header styling for the form */
-.form-heading {
+.form-header {
   font-size: 2em;
   width: 300px;
   display: flex;
@@ -76,30 +52,26 @@ body {
   color: var(--fontColor);
 }
 
-/* Form width on larger screens */
-.form-container form {
+/* Giving the form tag a fixed Width across the big Screen or screen from 768px and above */
+.form-box form {
   width: 400px;
 }
 
-/* Styling for input boxes */
-.name-input-container,
-.sector-selector-container {
+.name-box,
+.selector-box {
   display: flex;
   flex-direction: column;
   width: auto;
-  margin: 20px 0;
 }
 
-/* Label styling for input boxes */
-.name-input-container label,
-.sector-selector-container label {
+.name-box label,
+.selector-box label {
   color: var(--fontColor);
   font-size: var(--fontSize);
   font-weight: 500;
 }
 
-/* Input box styling */
-.name-input-container .custom-input {
+.name-box .custom-input {
   width: auto;
   padding: 4px 12px;
   border-radius: 10px;
@@ -109,19 +81,16 @@ body {
   font-size: 14px;
   background: transparent;
 }
-.name-input-container .custom-input:focus-visible {
-  outline: 2px solid #b4cfe0;
-}
 
-/* Input box focus styling */
-.name-input-container .custom-input:focus {
+.name-box .custom-input:focus {
   outline: 1px solid #b4cfe0;
   background: transparent;
 }
-/* /////////////////////////////////////////////// */
 
-/* /////////////////////////////////////////////// */
-/* Button styling */
+/* ///////////////////////////////////////////// */
+
+/* ///////////////////////////////////////////// */
+/* Button Design */
 .save-button {
   padding: 10px;
   cursor: pointer;
@@ -131,15 +100,11 @@ body {
   border: none;
   width: 150px;
   font-size: var(--fontSize);
-  margin-top: 10px;
 }
 
-/* Button hover styling */
 .save-button:hover {
   background: #476d73;
 }
-
-/* Disabled button styling */
 .save-button-disabled {
   opacity: 0.5;
   padding: 10px;
@@ -151,11 +116,11 @@ body {
   width: 150px;
   font-size: var(--fontSize);
 }
-/* /////////////////////////////////////////////// */
+/* ///////////////////////////////////////////// */
 
-/* /////////////////////////////////////////////// */
-/* Styling for the side text container */
-.side-text-container {
+/* ///////////////////////////////////////////// */
+/* Side div or the right div with the Quote content */
+.side-text {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -168,28 +133,27 @@ body {
   max-height: 100svh;
 }
 
-/* Styling for text within the side text container */
-.side-text-container p {
+.side-text p {
   width: 350px;
   text-align: start;
 }
-
 /* /////////////////////////////////////////////// */
-/* Responsive design for screens below 768px */
+
+/* adding responsiveness from a width of 768px */
 @media screen and (max-width: 768px) {
-  .main-container {
+  .container {
     flex-direction: row;
     width: 100%;
   }
 
-  .form-container {
+  .form-box {
     flex: auto;
     width: 100%;
     height: 100%;
     padding: 12px;
   }
 
-  .form-heading {
+  .form-header {
     font-size: var(--fontSize);
     width: auto;
     display: flex;
@@ -197,23 +161,21 @@ body {
     align-items: flex-start;
   }
 
-  .form-container {
+  .form-box {
     width: 100%;
   }
 
-  .form-container form {
+  .form-box form {
     width: 100%;
   }
 
-  .side-text-container {
+  .side-text {
     display: none;
   }
 }
 
-/* /////////////////////////////////////////////// */
-/* Responsive design for screens between 450px and 768px */
-@media screen and (min-width: 450px) and (max-width: 768px) {
-  .form-container form {
+@media screen and (min-width: 450px) and (max-width:768px) {
+  .form-box form{
     width: 400px;
   }
 }

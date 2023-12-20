@@ -1,6 +1,6 @@
 // Options for the dynamic dropdown
 // Options can be populated in the dynamicOptions[Array]
-const dynamicOptions = [
+const DynamicOptions = [
   { value: "1", label: "Manufacturing" },
   { value: "19", label: "Construction materials" },
   { value: "18", label: "Electronics and Optics" },
@@ -82,4 +82,4 @@ const dynamicOptions = [
   { value: "113", label: "Water" },
 ];
 
-export default dynamicOptions;
+export default DynamicOptions;

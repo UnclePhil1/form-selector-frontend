@@ -1,29 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./style.css";
+import React, { useState, useEffect, useRef } from 'react';
+import './style.css'; // Import the corresponding CSS
 
-const CustomDropdown = ({
-  options,
-  handleSelect,
-  fetchDataAsync,
-  addCustomOptionAsync,
-  selectedOption,
-}) => {
+const CustomDropdown = ({ options, handleSelect, fetchDataAsync }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    fetchDataAsync();
-
-    document.addEventListener("click", handleOutsideClick);
+    fetchDataAsync(); // Fetch data asynchronously when the component mounts
+    document.addEventListener('click', handleOutsideClick);
 
     return () => {
-      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener('click', handleOutsideClick);
     };
   }, [fetchDataAsync]);
 
   const handleOptionClick = (option) => {
-    handleSelect(option);
+    setSelectedOption(option);
     setIsOpen(false);
+    handleSelect(option); // Change this line to use handleSelect
   };
 
   const handleOutsideClick = (event) => {
@@ -33,28 +28,9 @@ const CustomDropdown = ({
   };
 
   return (
-    <div
-      ref={dropdownRef}
-      className="custom-dropdown-container"
-      tabIndex={0} // Keyboard accessibility
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          setIsOpen(!isOpen);
-        }
-      }}
-    >
-      <div
-        className="custom-dropdown-header"
-        onClick={() => setIsOpen(!isOpen)}
-        role="button"
-        tabIndex={0} // Keyboard accessibility
-        onKeyUp={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            setIsOpen(!isOpen);
-          }
-        }}
-      >
-        {selectedOption || "Choose your Sector"}
+    <div ref={dropdownRef} className="custom-dropdown-container">
+      <div className="custom-dropdown-header" onClick={() => setIsOpen(!isOpen)}>
+        {selectedOption || 'Select an option'}
       </div>
       {isOpen && (
         <div className="custom-dropdown-options">
@@ -63,13 +39,7 @@ const CustomDropdown = ({
               key={option.value}
               className="custom-dropdown-option"
               onClick={() => handleOptionClick(option.value)}
-              tabIndex={0} // Keyboard accessibility
-              role="button"
-              onKeyUp={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  handleOptionClick(option.value);
-                }
-              }}
+              title={option.value}
             >
               {option.label}
             </div>
