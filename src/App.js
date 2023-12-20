@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-<<<<<<< HEAD
 import CustomDropdown from "./components/selector/index";
 import dynamicOptions from "./components/dynamicoptions/index"; // Adjust the path accordingly
-=======
-import CustomDropdown from "./components/selector/index"; // Adjust the path accordingly
->>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
 import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -17,39 +13,8 @@ const App = () => {
     agreeToTerms: false,
   });
 
-<<<<<<< HEAD
   // State to manage the selected option in the dropdown
   const [selectedOption, setSelectedOption] = useState("");
-=======
-  const [selectedOption, setSelectedOption] = useState('');
-  const dynamicOptions = ['Option A', 'Option B', 'Option C'];
-
-  const handleSelect = (option) => {
-    setSelectedOption(option);
-    setFormData((prevData) => ({ ...prevData, sector: option }));
-  };
-
-  useEffect(() => {
-    fetchDataAsync();
-  }, []);
-
-  const fetchDataAsync = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/sectors");
-      // Process the response if needed
-    } catch (error) {
-      console.error("Error fetching sectors:", error);
-    }
-  };
-
-  const addCustomOptionAsync = async (option) => {
-    try {
-      await axios.post("http://localhost:5000/api/add-sector", { name: option });
-    } catch (error) {
-      console.error("Error adding custom option:", error);
-    }
-  };
->>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
 
   // State to track if the name already exists
   const [isNameExists, setIsNameExists] = useState(false);
@@ -116,7 +81,6 @@ const App = () => {
     }
 
     try {
-<<<<<<< HEAD
       const response = await axios.post(
         "http://localhost:5000/api/save-user",
         formData
@@ -129,10 +93,6 @@ const App = () => {
       } else {
         toast.error("Error saving data");
       }
-=======
-      const response = await axios.post("http://localhost:5000/api/save-user", formData);
-      console.log(response.data);
->>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
     } catch (error) {
       console.error("Error saving data:", error);
       toast.error("Error saving data");
@@ -143,7 +103,6 @@ const App = () => {
   const isDisabled = !formData.name || !formData.sector;
 
   return (
-<<<<<<< HEAD
     // Main container for the whole Page
     <div className="main-container">
       <div className="form-container">
@@ -151,11 +110,6 @@ const App = () => {
         <h1 className="form-heading">Let's get you started.</h1>
 
         {/* Form Container itself */}
-=======
-    <div className="container">
-      <div className="form-box">
-      <h1 className="form-header">Lets get you started.</h1>
->>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
         <form>
           {/* Input for the user's name */}
           <div className="name-input-container">
@@ -182,10 +136,7 @@ const App = () => {
               handleSelect={handleSelect}
               fetchDataAsync={fetchDataAsync}
               addCustomOptionAsync={addCustomOptionAsync}
-<<<<<<< HEAD
               selectedOption={selectedOption} // Pass the selected option to the dropdown
-=======
->>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
             />
           </div>
 
@@ -197,7 +148,6 @@ const App = () => {
               name="agreeToTerms"
               checked={formData.agreeToTerms}
               onChange={handleInputChange}
-<<<<<<< HEAD
               disabled={!selectedOption}
             />
           </div>
@@ -209,28 +159,14 @@ const App = () => {
             className={`save-button ${
               isDisabled ? "save-button-disabled" : ""
             }`}
-=======
-              disabled={!selectedOption} // Set the disabled attribute
-            />
-          </div>
-          <br />
-          <button
-            onClick={handleSave}
-            disabled={isDisabled}
-            className={`save-button ${isDisabled ? 'save-button-disabled' : ''}`}
->>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
           >
             Save
           </button>
         </form>
       </div>
-<<<<<<< HEAD
 
       {/* Additional text */}
       <div className="side-text-container">
-=======
-      <div className="side-text">
->>>>>>> bd2b330544d00e00b2b8189d1c0f6363aa0a4bc9
         <p>"Select the Sectors you are currently involved in."</p>
       </div>
       {/* Toaster */}
