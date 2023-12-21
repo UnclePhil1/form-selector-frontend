@@ -126,7 +126,10 @@ body {
   padding: 10px;
   border-radius: 10px;
   width: 300px;
-  box-shadow: 2px 2px 2px 2px whitesmoke;
+  box-shadow: 2px 2px 2px 3px whitesmoke;
+  height: 300px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .user-list-modal ul{
