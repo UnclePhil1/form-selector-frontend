@@ -1,48 +1,90 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './style.css'; // Import the corresponding CSS
+import React, { useState, useEffect, useRef } from "react";
+import "./style.css";
 
-const CustomDropdown = ({ options, handleSelect, fetchDataAsync }) => {
+// CustomDropdown component receives props:
+// - options: An array of available options for the dropdown
+// - handleSelect: Function to handle selection of an option
+// - fetchDataAsync: Asynchronous function to fetch data (executed on component mount)
+// - addCustomOptionAsync: Asynchronous function to add a custom option
+// - selectedOption: Currently selected option
+const CustomDropdown = ({
+  options,
+  handleSelect,
+  fetchDataAsync,
+  selectedOption,
+}) => {
+  // State to manage the visibility of the dropdown options
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
+
+  // Reference to the dropdown container to detect clicks outside the dropdown
   const dropdownRef = useRef(null);
 
+  // useEffect runs when the component mounts
   useEffect(() => {
-    fetchDataAsync(); // Fetch data asynchronously when the component mounts
-    document.addEventListener('click', handleOutsideClick);
+    // Fetch initial data asynchronously
+    fetchDataAsync();
 
+    // Add an event listener to detect clicks outside the dropdown and close it
+    document.addEventListener("click", handleOutsideClick);
+
+    // Clean up the event listener when the component unmounts
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, [fetchDataAsync]);
 
+  // Handles a click on an option in the dropdown
   const handleOptionClick = (option) => {
-    setSelectedOption(option);
+    // Call the provided handleSelect function to update the selected option
+    handleSelect(option);
+    // Close the dropdown
     setIsOpen(false);
-    handleSelect(option); // Change this line to use handleSelect
   };
 
+  // Handles a click outside the dropdown to close it
   const handleOutsideClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
     }
   };
 
+  // Render the component
   return (
-    <div ref={dropdownRef} className="custom-dropdown-container">
-      <div className="custom-dropdown-header" onClick={() => setIsOpen(!isOpen)}>
-        {selectedOption || 'Select an option'}
-      </div>
+    // Ref attached to the dropdown container to detect clicks outside
+    <div className="custom-dropdown-container" ref={dropdownRef}>
+      {/* Header of the dropdown, clicking it toggles the dropdown visibility */}
+      <button
+        type="button"
+        className="custom-dropdown-header"
+        onClick={() => setIsOpen(!isOpen)}
+        // Add ARIA attributes
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-controls="customDropdownOptions"
+      >
+        {selectedOption || "Choose your Sector"}
+      </button>
+      {/* Dropdown options are rendered if the dropdown is open */}
       {isOpen && (
-        <div className="custom-dropdown-options">
+        <div
+          className="custom-dropdown-options"
+          id="customDropdownOptions"
+          role="listbox"
+        >
           {options.map((option) => (
-            <div
+            <button
               key={option.value}
-              className="custom-dropdown-option"
+              className={`custom-dropdown-option ${
+                selectedOption === option.value ? "selected" : ""
+              }`}
               onClick={() => handleOptionClick(option.value)}
               title={option.value}
+              // Add ARIA attributes
+              role="option"
+              aria-selected={selectedOption === option.value}
             >
               {option.label}
-            </div>
+            </button>
           ))}
         </div>
       )}

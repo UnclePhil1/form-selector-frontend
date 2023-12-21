@@ -1,17 +1,24 @@
 /* CustomDropdown.css */
+
+/* Style for the container holding the dropdown */
 .custom-dropdown-container {
   position: relative;
   width: auto;
-  
 }
 
+/* Style for the header of the dropdown, the visible part */
 .custom-dropdown-header {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
   cursor: pointer;
+  width: 100%;
+  background: transparent;
+  color: #27485d;
+  text-align: start;
 }
 
+/* Style for the options dropdown when it's open */
 .custom-dropdown-options {
   position: absolute;
   top: 100%;
@@ -26,12 +33,30 @@
   z-index: 10;
 }
 
+/* Style for individual options within the dropdown */
 .custom-dropdown-option {
   padding: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: start;
 }
 
+.custom-dropdown-option.selected {
+  background-color: #b4cfe0; /* Add your desired background color */
+  color: #ffffff; /* Add your desired text color */
+  /* Add any other styles for the selected option */
+}
+
+/* Hover effect on dropdown options */
 .custom-dropdown-option:hover {
   background-color: #b4cfe0;
+}
+.custom-dropdown-option:focus-visible,
+.custom-dropdown-options:focus-visible
+.custom-dropdown-header:focus-visible
+{
+  outline: 1px solid gray;
 }
