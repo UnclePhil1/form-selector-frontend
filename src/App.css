@@ -11,7 +11,7 @@ body {
 /* //////////////////////////////////// */
 /* Declearing some root variables */
 :root {
-  --fontSize: 20px;
+  --fontSize: 18px;
   --fontColor: #27485d;
   --borderColor: #284a5e;
   --BackgroundColor: #f1f6fd;
@@ -119,6 +119,36 @@ body {
 /* ///////////////////////////////////////////// */
 
 /* ///////////////////////////////////////////// */
+/* User List Design Flow */
+.user-list-modal{
+  position: absolute;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 2px 2px 2px 2px whitesmoke;
+}
+
+.user-list-modal ul{
+  padding: 0;
+}
+
+.user-list-modal ul li{
+  margin: 4px 0;
+  list-style: none;
+  text-align: start;
+  padding: 6px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.user-list-modal ul li:hover{
+  background: var(--BackgroundColor);
+}
+
+/* ///////////////////////////////////////////// */
+
+/* ///////////////////////////////////////////// */
 /* Side div or the right div with the Quote content */
 .side-text {
   flex: 1;
@@ -174,8 +204,8 @@ body {
   }
 }
 
-@media screen and (min-width: 450px) and (max-width:768px) {
-  .form-box form{
+@media screen and (min-width: 450px) and (max-width: 768px) {
+  .form-box form {
     width: 400px;
   }
 }

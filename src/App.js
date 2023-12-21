@@ -15,6 +15,14 @@ const App = () => {
 
   // State to manage selected sector for the dropdown
   const [selectedOption, setSelectedOption] = useState("");
+  const [users, setUsers] = useState([]); // State to store fetched users
+  const [editingUser, setEditingUser] = useState(null); // State to store the user being edited
+  const [isUserListModalOpen, setUserListModalOpen] = useState(false);
+
+  // Function to toggle the user list modal
+  const toggleUserListModal = () => {
+    setUserListModalOpen(!isUserListModalOpen);
+  };
 
   // Function to handle sector selection in the dropdown
   const handleSelect = (option) => {
@@ -32,12 +40,10 @@ const App = () => {
   const fetchDataAsync = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/get-user");
-      // Process the response if needed
-      // if (response.data) {
-      //   // If user data exists, update the form data
-      // }
+      // Set the fetched users to the state
+      setUsers(response.data);
     } catch (error) {
-      console.error("Error fetching sectors:", error);
+      console.error("Error fetching users:", error);
     }
   };
 
@@ -65,17 +71,49 @@ const App = () => {
   // Function to handle saving the form data
   const handleSave = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/save-user",
-        formData
-      );
-      console.log("Server Response:", response.data);
-      console.log("Submitted Successfully!");
-      toast.success("Submitted Successfully!");
+      if (editingUser) {
+        // If editing, update the existing user
+        await axios.put(
+          `http://localhost:5000/api/update-user/${editingUser._id}`,
+          formData
+        );
+        toast.success("User Updated Successfully!");
+
+        // Clear editing state after updating the user
+        setEditingUser(null);
+      } else {
+        // If not editing, add a new user
+        await axios.post("http://localhost:5000/api/save-user", formData);
+        toast.success("User Added Successfully!");
+      }
+
+      setFormData({
+        name: "",
+        sector: "",
+        agreeToTerms: false,
+      });
+      setSelectedOption("");
+      fetchDataAsync(); // Fetch updated user list
     } catch (error) {
       console.error("Error saving data:", error);
-      toast.error("Error submitting");
+      toast.error("Error submitting", error);
+      // Check if it's a validation error
+      if (error.response && error.response.status === 422) {
+        toast.error("Validation Error. Please check your input.");
+      } else {
+        toast.error("Error submitting", error);
+      }
     }
+  };
+
+  // ... (previous code)
+
+  // Function to handle Editing.
+  const handleEdit = (user) => {
+    setEditingUser(user);
+    setSelectedOption(user.sector);
+    setFormData(user);
+    toggleUserListModal();
   };
 
   // Disable the checkbox and button if Name or Sector is not filled
@@ -144,9 +182,27 @@ const App = () => {
               isDisabled ? "save-button-disabled" : ""
             }`}
           >
-            Save
+            {editingUser ? "Update User" : "Save"}
           </button>
         </form>
+    
+        <div className="user-container">
+          <h2>User List</h2>
+          <button onClick={toggleUserListModal} className="save-button">Open User List</button>
+        </div>
+        {isUserListModalOpen && (
+          <div className="user-list-modal">
+            <h2>User List</h2>
+            <ul>
+              {users.map((user) => (
+                <li key={user._id} onClick={() => handleEdit(user)}>
+                  {user.name} - {user.sector}
+                </li>
+              ))}
+            </ul>
+            <button onClick={toggleUserListModal} className="save-button">Close</button>
+          </div>
+        )}
       </div>
       <Toaster position="top-center" />
       <div className="side-text">
